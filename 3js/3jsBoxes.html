@@ -1,0 +1,113 @@
+<!--
+ * Copyright © 2017 Ben Preece
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom the Software
+ * is furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ *THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ *EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ *OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ *IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ *CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ *TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+ *OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>3js Boxes</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <!-- Add some styling for the sliders -->
+        
+        <style>
+            html, body { height: 100%; width: 100%; }
+            #canvas, #controls { position: fixed; top: 0; right: 0; bottom: 0; left: 0; }
+            #canvas { z-index: 1 }
+        </style>
+        <script src="/three.js"></script>
+    </head>
+    
+    <body>
+        <div id="canvas"></div>
+        
+        <script>
+            // Create a renderer and link it into the DOM
+            
+            var element = document.getElementById('canvas');
+            var renderer = new THREE.WebGLRenderer({antialias: true});
+            element.appendChild(renderer.domElement);
+            element.focus();
+
+            // Set the clear color 
+            
+            renderer.setClearColor(0x012345, 1);
+
+            // Create the camera and scene
+            
+            var camera = new THREE.PerspectiveCamera(70, element.clientWidth / element.clientHeight, 1, 2500);
+            var scene = new THREE.Scene();
+
+            // Create the lighting and add to the scene
+            
+            var ambientLight = new THREE.AmbientLight(0xffffff, 0.25);
+            scene.add(ambientLight);
+            
+            var directionalLightA = new THREE.DirectionalLight(0xffffff, 1);
+            directionalLightA.position.set(1, 2, 3);
+            scene.add(directionalLightA);
+            
+            var directionalLightB = new THREE.DirectionalLight(0x555588);
+            directionalLightB.position.set(-21, 13, -8);
+            scene.add(directionalLightB);
+            
+            // Create a library of materials to use to create the boxes
+
+            var materials = [
+                new THREE.MeshLambertMaterial({color: 0x816c4f}),
+                new THREE.MeshLambertMaterial({color: 0x57322a}),
+                new THREE.MeshLambertMaterial({color: 0x2d1f16}),
+                new THREE.MeshLambertMaterial({color: 0x82bcf8}),
+                new THREE.MeshLambertMaterial({color: 0x006593}),
+                new THREE.MeshLambertMaterial({color: 0x253f60})
+            ];
+            
+            // Create 250 random boxes and add them to the scene
+            
+            var BOX_COUNT = 250;
+            for (var n = 0; n < BOX_COUNT; n++) {
+                var geometry = new THREE.BoxGeometry(Math.random() * 100, Math.random() * 100, Math.random() * 100);
+                var material = materials[Math.floor(Math.random() * materials.length)];
+                var box = new THREE.Mesh(geometry, material);
+                box.position.set((Math.random()  - 0.5) * 1000, (Math.random()  - 0.5) * 1000, (Math.random()  - 0.5) * 1000);
+                scene.add(box);
+            }
+            
+            // Set up and event listener to adjust the dimensions of the canvas when the element changes size
+
+            function adjustSize() {
+                camera.aspect = element.clientWidth / element.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setPixelRatio(window.devicePixelRatio);
+                renderer.setSize(element.clientWidth, element.clientHeight);
+            }
+            window.addEventListener('resize', adjustSize);
+            adjustSize();
+            
+            // Initialize the camera position and render the scene
+
+            camera.position.set(0, 0, 750);
+            camera.lookAt(new THREE.Vector3(0, 0, 0));
+            renderer.render(scene, camera);
+
+        </script>
+    </body>
+</html>

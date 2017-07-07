@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Page 4</title>
+        <meta charset="UTF-8">
+        <link href="pages.css" rel="stylesheet" type="text/css">
+        <style>
+            body { font-size: 1.5rem; }
+            ul { padding: 0; margin: 0; }
+            .row-1, .row-2, .row-3, .col-1, .col-2, .col-3 { position: absolute; }
+            .row-1 { top: 100px; }
+            .row-2 { top: 300px; }
+            .row-3 { top: 500px; }
+            .col-1 { left: 100px; width: 250px; font-weight: bold; }
+            .col-2 { left: 350px; width: 450px; }
+            .col-3 { left: 850px; width: 300px; font-style: italic; font-size: 85%; }
+        </style>
+    </head>
+    <body>
+        <div id="content">
+            <div class="row-1 col-1">
+                View:
+            </div>
+            <ul class="row-1 col-2">
+                <li>Responsible for visual display</li>
+                <li>Mostly static</li>
+                <li>Model-independent</li>
+            </ul>
+            <div class="row-1 col-3">
+                HTML or Angular directive
+            </div>
+            <div class="row-2 col-1">
+                Model:
+            </div>
+            <ul class="row-2 col-2">
+                <li>Data to be displayed</li>
+                <li>Mutable</li>
+                <li>Passive object, not active</li>
+            </ul>
+            <div class="row-2 col-3">
+                Javascript data or Angular service
+            </div>
+            <div class="row-3 col-1">
+                Controller:
+            </div>
+            <ul class="row-3 col-2">
+                <li>Makes changes to the model</li>
+                <li>Responds to user events</li>
+                <li>Implements "business logic"</li>
+            </ul>
+            <div class="row-3 col-3">
+                Angular Controller
+            </div>
+        </div>
+    </body>
+</html>
